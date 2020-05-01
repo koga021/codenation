@@ -26,20 +26,20 @@ for i in dados['cifrado']:
     #print(i)
     saida=utilidades.Decifra(i,dados['numero_casas'])
     #print(saida)
-    frase=frase + saida
+    frase=frase + str(saida)
 
-#print(dados)
+print(dados)
 #print(dados['cifrado'])
-#print(frase)
+print(frase)
 dados['decifrado']=frase
 #print(dados)
 
-d512=hashlib.sha512(frase.encode('utf-8')).hexdigest()
-#print(d512)
-dados['resumo_criptografico']=d512
+dsha1=hashlib.sha1(frase.encode('utf-8')).hexdigest()
+#print(dsha1)
+dados['resumo_criptografico']=dsha1
 
 #print(dados)
-#print(type(dados))
+print(type(dados))
 with open('./answer.json','w') as file:
     #file.write(dados)
     json.dump(dados, file)

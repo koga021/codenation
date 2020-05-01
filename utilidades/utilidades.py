@@ -6,7 +6,7 @@ def Recebe(token):
     r = requests.get('https://api.codenation.dev/v1/challenge/dev-ps/generate-data?token='+token)
     saida=r.json()
     print(saida)
-    with open('./answer.json','wb') as file:
+    with open('answer.json','wb') as file:
         file.write(r.content)
 
 
@@ -18,19 +18,10 @@ def Decifra(entrada,casas):
     #print("Iniciando a localizacao")
     try:
         if entrada in abcdario:
-            #print("A String existe dentro do ABCDARIO")
-            #print("String de entrada: ",entrada,"Posicao: ",abcdario.index(entrada))
-            #return(abcdario[abcdario.index(entrada)+casas])
-            if abcdario.index(entrada)+casas >= 26:
-                #print("Fora do Array de ABCDARIO")
-                nposicao=abcdario.index(entrada)+casas - 26
-                #print("String de saida: ",abcdario[nposicao],"Posicao: ",nposicao)
-                return(abcdario[nposicao])
-            else:
-                #print("Dentro do Array de ABCDARIO")
-                return(abcdario[abcdario.index(entrada)+casas])
-
-
+            nposicao=abcdario.index(entrada) - casas
+            #print(abcdario[nposicao])
+            return(abcdario[nposicao])
+ 
         else:
             #print("Estou fora da lista")
             return(entrada)
@@ -41,8 +32,10 @@ def Decifra(entrada,casas):
 #print(saida)
 
 def EnviaResposta(token):
-    files = {'answer': ('answer.json', open('./answer.json', 'rb'))}
-    headers = {'Content-type': 'multipart/form-data'}
-    r = requests.post('https://api.codenation.dev/v1/challenge/dev-ps/submit-solution?token='+token,files=files,headers=headers)
+    files = {'answer': open('answer.json', 'rb')}
+    #headers = {'Content-type': 'multipart/form-data'}
+    r = requests.post('https://api.codenation.dev/v1/challenge/dev-ps/submit-solution?token='+token,files=files)
     saida=r.headers
     print(saida)
+    print(r.status_code)
+    print(r.text)
